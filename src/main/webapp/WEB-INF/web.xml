@@ -17,6 +17,26 @@
         <url-pattern>/user/list.html</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UserEditServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.user.UserEditServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserEditServlet</servlet-name>
+        <url-pattern>/user/edit.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserSaveServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.user.UserSaveServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserSaveServlet</servlet-name>
+        <url-pattern>/user/save.html</url-pattern>
+    </servlet-mapping>
+
 
 
     <listener>

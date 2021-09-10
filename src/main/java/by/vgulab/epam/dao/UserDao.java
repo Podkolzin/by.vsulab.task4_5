@@ -10,4 +10,8 @@ public interface UserDao extends Dao<User> {
 
     boolean isUserInitiatesTransfers(Long id) throws DaoException;
 
+    User readByLogin(String login) throws DaoException;
+
+    User readByLoginAndPassword(String login, String password) throws DaoException;
+
 }

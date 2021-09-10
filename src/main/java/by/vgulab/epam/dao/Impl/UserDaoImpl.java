@@ -56,6 +56,16 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     }
 
     @Override
+    public User readByLogin(String login) throws DaoException {
+        return null;
+    }
+
+    @Override
+    public User readByLoginAndPassword(String login, String password) throws DaoException {
+        return null;
+    }
+
+    @Override
     public User read(Long id) throws DaoException {
         final String read = "SELECT  * FROM user WHERE id = ?";
         PreparedStatement statement = null;
@@ -71,11 +81,11 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 user = new User();
                 user.setId(id);
                 user.setLogin(resultSet.getString("login"));
-                user.setLogin(resultSet.getString("password"));
+                user.setPassword(resultSet.getString("password"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setEmail(resultSet.getString("email"));
-                user.setRole(Role.values()resultSet.getInt("role"));
+                user.setRole(Role.values()[resultSet.getInt("role")]);
             }
             return user;
 

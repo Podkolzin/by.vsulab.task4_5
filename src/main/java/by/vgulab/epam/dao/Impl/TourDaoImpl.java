@@ -7,10 +7,7 @@ import by.vgulab.epam.domain.Tour;
 import by.vgulab.epam.domain.Type;
 import by.vgulab.epam.domain.User;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,16 +106,90 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
 
     @Override
     public Long create(Tour tour) throws DaoException {
-        return null;
+
+        final String create = "INSERT INTO tour (type, country, town, date, day, foot, price) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = getConnection().prepareStatement(create, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setInt(1, tour.getType().ordinal());
+            statement.setString(2, tour.getCountry());
+            statement.setString(3, tour.getTown());
+            statement.setDate(4, (Date) tour.getDate());
+            statement.setInt(5, tour.getDay());
+            statement.setInt(6, tour.getFoot().ordinal());
+            statement.setInt(7, tour.getPrice());
+            statement.executeUpdate();
+            Long id = null;
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                id = resultSet.getLong(1);
+            }
+            return id;
+
+        } catch (SQLException e) {
+            throw new DaoException();
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception e) {
+            }
+            try {
+                statement.close();
+            } catch (Exception e) {
+            }
+        }
     }
 
     @Override
     public void update(Tour tour) throws DaoException {
+        final String updateQuery = "UPDATE tour SET type = ?, country = ?, town = ?, date = ?, day = ?, foot = ?, price = ? WHERE id = ?";
 
+        PreparedStatement statement = null;
+
+        try {
+
+            statement.setInt(1, tour.getType().ordinal());
+            statement.setString(2, tour.getCountry());
+            statement.setString(3, tour.getTown());
+            statement.setDate(4, (Date) tour.getDate());
+            statement.setInt(5, tour.getDay());
+            statement.setInt(6, tour.getFoot().ordinal());
+            statement.setInt(7, tour.getPrice());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            try {
+                statement.close();
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     @Override
     public void delete(Long id) throws DaoException {
+        final String delete = "DELETE FROM tour WHERE id = ?";
 
+        PreparedStatement statement = null;
+        try {
+            statement = getConnection().prepareStatement(delete);
+            statement.setLong(1, id);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            try {
+                statement.close();
+            } catch (Exception e) {
+
+            }
+        }
     }
 }

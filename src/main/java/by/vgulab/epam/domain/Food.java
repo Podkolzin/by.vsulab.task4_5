@@ -1,6 +1,6 @@
 package by.vgulab.epam.domain;
 
-public enum Foot {
+public enum Food {
 
 
     RO("Без питания"),
@@ -16,7 +16,7 @@ public enum Foot {
     private String name;
 
 
-    Foot(String name) {
+    Food(String name) {
         this.name = name;
     }
 
@@ -24,4 +24,7 @@ public enum Foot {
         return Long.valueOf(ordinal());
     }
 
+    public String getName() {
+        return name;
+    }
 }

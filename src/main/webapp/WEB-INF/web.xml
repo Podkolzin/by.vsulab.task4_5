@@ -37,6 +37,60 @@
         <url-pattern>/user/save.html</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.user.UserDeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <url-pattern>/user/delete.html</url-pattern>
+    </servlet-mapping>
+
+
+
+
+
+    <servlet>
+        <servlet-name>TourListServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.tour.TourListServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TourListServlet</servlet-name>
+        <url-pattern>/tour/list.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TourEditServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.tour.TourEditServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TourEditServlet</servlet-name>
+        <url-pattern>/tour/edit.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TourSaveServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.tour.TourSaveServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TourSaveServlet</servlet-name>
+        <url-pattern>/tour/save.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TourDeleteServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.tour.TourDeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TourDeleteServlet</servlet-name>
+        <url-pattern>/tour/delete.html</url-pattern>
+    </servlet-mapping>
+
 
 
     <listener>

@@ -4,7 +4,6 @@ import by.vgulab.epam.controller.BaseServlet;
 import by.vgulab.epam.domain.Role;
 import by.vgulab.epam.domain.User;
 import by.vgulab.epam.service.UserService;
-import by.vgulab.epam.util.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +14,13 @@ public class UserSaveServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         User user = new User();
 
         try {
             user.setId(Long.parseLong(req.getParameter("id")));
         } catch (NumberFormatException e) {
         }
-        user.setLogin(req.getParameter("login"));
         try {
             UserService userService = getFactory().getUserService();
             user.setLogin(req.getParameter("login"));

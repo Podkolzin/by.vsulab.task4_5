@@ -1,9 +1,13 @@
 package by.vgulab.epam.util;
 
+import by.vgulab.epam.dao.Impl.TourDaoImpl;
 import by.vgulab.epam.dao.Impl.UserDaoImpl;
+import by.vgulab.epam.dao.TourDao;
 import by.vgulab.epam.dao.UserDao;
+import by.vgulab.epam.service.TourService;
 import by.vgulab.epam.service.Transaction;
 import by.vgulab.epam.service.UserService;
+import by.vgulab.epam.service.impl.TourServiceImpl;
 import by.vgulab.epam.service.impl.TransactionImpl;
 import by.vgulab.epam.service.impl.UserServiceImpl;
 
@@ -18,6 +22,13 @@ public class MainServiceFactoryImpl implements ServiceFactory {
         UserDaoImpl userDao = new UserDaoImpl();
         userDao.setConnection(getConnection());
         return userDao;
+    }
+
+    @Override
+    public TourDao getTourDao() throws FactoryException {
+        TourDaoImpl tourDao = new TourDaoImpl();
+        tourDao.setConnection(getConnection());
+        return tourDao;
     }
 
     @Override
@@ -39,6 +50,15 @@ public class MainServiceFactoryImpl implements ServiceFactory {
         userService.setTransaction(getTransaction());
         userService.setUserDao(getUserDao());
         return userService;
+    }
+
+    @Override
+    public TourService getTourService() throws FactoryException {
+        TourServiceImpl tourService = new TourServiceImpl();
+        tourService.setTransaction(getTransaction());
+        tourService.setUserDao(getTourDao());
+
+        return tourService;
     }
 
     @Override

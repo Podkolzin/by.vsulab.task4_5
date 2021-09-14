@@ -1,16 +1,18 @@
 package by.vgulab.epam.domain;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 public class Tour extends Entity {
 
     private Type type;
     private String country;
     private String town;
-    private Date  date;
+    private java.sql.Date date;
     private int day;
-    private Foot foot;
+    private Food food;
     private int price;
+
 
     public Type getType() {
         return type;
@@ -52,12 +54,12 @@ public class Tour extends Entity {
         this.day = day;
     }
 
-    public Foot getFoot() {
-        return foot;
+    public Food getFood() {
+        return food;
     }
 
-    public void setFoot(Foot foot) {
-        this.foot = foot;
+    public void setFood(Food food) {
+        this.food = food;
     }
 
     public int getPrice() {

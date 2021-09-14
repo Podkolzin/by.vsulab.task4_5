@@ -23,7 +23,7 @@
             <input id="login" name="login" value="${user.login}">
             <label for="password">Пароль:</label>
             <input id="password" name="password" value="${user.password}">
-            <label for="login">name:</label>
+            <label for="name">name:</label>
             <input id="name" name="name" value="${user.name}">
             <label for="surname">surname:</label>
             <input id="surname" name="surname" value="${user.surname}">

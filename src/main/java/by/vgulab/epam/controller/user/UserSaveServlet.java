@@ -4,6 +4,7 @@ import by.vgulab.epam.controller.BaseServlet;
 import by.vgulab.epam.domain.Role;
 import by.vgulab.epam.domain.User;
 import by.vgulab.epam.service.UserService;
+import by.vgulab.epam.service.exception.UserNotExistsException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

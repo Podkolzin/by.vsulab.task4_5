@@ -46,7 +46,7 @@ public class MainServiceFactoryImpl implements ServiceFactory {
     @Override
     public UserService getUserService() throws FactoryException {
         UserServiceImpl userService = new UserServiceImpl();
-        userService.setDefaultPassword("12345");
+      //  userService.setDefaultPassword("12345");
         userService.setTransaction(getTransaction());
         userService.setUserDao(getUserDao());
         return userService;

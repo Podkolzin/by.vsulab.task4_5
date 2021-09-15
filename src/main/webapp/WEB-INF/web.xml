@@ -93,6 +93,17 @@
 
 
 
+    <servlet>
+        <servlet-name>OrderListServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.order.OrderListServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OrderListServlet</servlet-name>
+        <url-pattern>/order/list.html</url-pattern>
+    </servlet-mapping>
+
+
     <listener>
         <listener-class>by.vgulab.epam.controller.ApplicationStartListener</listener-class>
     </listener>

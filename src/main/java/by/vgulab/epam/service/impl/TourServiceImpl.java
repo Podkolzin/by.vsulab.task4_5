@@ -16,7 +16,7 @@ public class TourServiceImpl extends BaseService implements TourService {
 
     private TourDao tourDao;
 
-    public void setUserDao(TourDao tourDao) {
+    public void setTourDao(TourDao tourDao) {
         this.tourDao = tourDao;
     }
 
@@ -100,7 +100,7 @@ public class TourServiceImpl extends BaseService implements TourService {
     @Override
     public boolean canDelete(Long id) throws ServiceException {
         try {
-            return !tourDao.isUserInitiatesTransfers(id);
+            return !tourDao.isTourInitiatesTransfers(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

@@ -1,4 +1,4 @@
-package by.vgulab.epam.dao.Impl;
+package by.vgulab.epam.dao.impl;
 
 import java.sql.Connection;
 

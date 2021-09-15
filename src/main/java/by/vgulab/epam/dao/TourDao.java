@@ -9,8 +9,8 @@ public interface TourDao extends Dao<Tour> {
 
     List<Tour> readAll() throws DaoException;
 
-    User readByCountry(String county) throws DaoException;
+    Tour readByCountry(String county) throws DaoException;
 
-    boolean isUserInitiatesTransfers(Long id) throws DaoException;
+    boolean isTourInitiatesTransfers(Long id) throws DaoException;
 
 }

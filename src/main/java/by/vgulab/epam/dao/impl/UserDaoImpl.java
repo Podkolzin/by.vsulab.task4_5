@@ -1,4 +1,4 @@
-package by.vgulab.epam.dao.Impl;
+package by.vgulab.epam.dao.impl;
 
 import by.vgulab.epam.dao.DaoException;
 import by.vgulab.epam.dao.UserDao;
@@ -19,7 +19,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         Statement statement = null;
         ResultSet resultSet = null;
         try {
-
             statement = getConnection().createStatement();
             resultSet = statement.executeQuery(findAllQuery);
             List<User> usersAll = new ArrayList<>();

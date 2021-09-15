@@ -1,12 +1,16 @@
 package by.vgulab.epam.util;
 
-import by.vgulab.epam.dao.Impl.TourDaoImpl;
-import by.vgulab.epam.dao.Impl.UserDaoImpl;
+import by.vgulab.epam.dao.OrderDao;
+import by.vgulab.epam.dao.impl.OrderDaoImpl;
+import by.vgulab.epam.dao.impl.TourDaoImpl;
+import by.vgulab.epam.dao.impl.UserDaoImpl;
 import by.vgulab.epam.dao.TourDao;
 import by.vgulab.epam.dao.UserDao;
+import by.vgulab.epam.service.OrderService;
 import by.vgulab.epam.service.TourService;
 import by.vgulab.epam.service.Transaction;
 import by.vgulab.epam.service.UserService;
+import by.vgulab.epam.service.impl.OrderServiceImpl;
 import by.vgulab.epam.service.impl.TourServiceImpl;
 import by.vgulab.epam.service.impl.TransactionImpl;
 import by.vgulab.epam.service.impl.UserServiceImpl;
@@ -30,6 +34,12 @@ public class MainServiceFactoryImpl implements ServiceFactory {
         tourDao.setConnection(getConnection());
         return tourDao;
     }
+    @Override
+    public OrderDao getOrderDao() throws FactoryException {
+        OrderDaoImpl orderDao = new OrderDaoImpl();
+        orderDao.setConnection(getConnection());
+        return orderDao;
+    }
 
     @Override
     public Connection getConnection() throws FactoryException {
@@ -41,6 +51,12 @@ public class MainServiceFactoryImpl implements ServiceFactory {
             }
         }
         return connection;
+    }
+    @Override
+    public Transaction getTransaction() throws FactoryException {
+        TransactionImpl transaction = new TransactionImpl();
+        transaction.setConnection(getConnection());
+        return transaction;
     }
 
     @Override
@@ -56,16 +72,17 @@ public class MainServiceFactoryImpl implements ServiceFactory {
     public TourService getTourService() throws FactoryException {
         TourServiceImpl tourService = new TourServiceImpl();
         tourService.setTransaction(getTransaction());
-        tourService.setUserDao(getTourDao());
+        tourService.setTourDao(getTourDao());
 
         return tourService;
     }
 
-    @Override
-    public Transaction getTransaction() throws FactoryException {
-        TransactionImpl transaction = new TransactionImpl();
-        transaction.setConnection(getConnection());
-        return transaction;
+    public OrderService getOrderService() throws FactoryException {
+        OrderServiceImpl orderService = new OrderServiceImpl();
+        orderService.setTransaction(getTransaction());
+        orderService.setOrderDao(getOrderDao());
+
+        return orderService;
     }
 
     @Override

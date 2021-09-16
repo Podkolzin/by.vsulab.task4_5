@@ -12,18 +12,31 @@
         <h2>Список заказов</h2>
         <table>
             <tr>
-                <th>user_id</th>
-                <th>tour_id</th>
-                <th>price</th>
-
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Цена</th>
+                <th>Тип путевки</th>
+                <th>Страна</th>
+                <th>Город</th>
+                <th>Дата заезда</th>
+                <th>Кол-во дней</th>
+                <th>Питание</th>
                 <td>&nbsp;</td>
 
             </tr>
             <c:forEach var="order" items="${order}">
             <tr>
-                <td class="content">${order.userId}</td>
-                <td class="content">${order.tourId}</td>
+                <td class="content">${order.user.name}</td>
+                <td class="content">${order.user.surname}</td>
                 <td class="content">${order.price}</td>
+                <td class="content">${order.tour.type.name}</td>
+                <td class="content">${order.tour.country}</td>
+                <td class="content">${order.tour.town}</td>
+                <td class="content">${order.tour.date}</td>
+                <td class="content">${order.tour.day}</td>
+                <td class="content">${order.tour.food.name}</td>
+
+
 
             </tr>
             </c:forEach>

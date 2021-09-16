@@ -5,6 +5,8 @@ import by.vgulab.epam.dao.TourDao;
 import by.vgulab.epam.domain.Food;
 import by.vgulab.epam.domain.Tour;
 import by.vgulab.epam.domain.Type;
+import by.vgulab.epam.pool.ConnectionPool;
+import by.vgulab.epam.pool.ConnectionPoolException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,15 +16,14 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
     @Override
     public List<Tour> readAll() throws DaoException {
         final String findAllQuery = "SELECT * FROM tour ORDER BY id";
-        Statement statement = null;
-        ResultSet resultSet = null;
 
 
-        try {
-            statement = getConnection().createStatement();
-            resultSet = statement.executeQuery(findAllQuery);
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(findAllQuery))
+        {
             List<Tour> tours = new ArrayList<>();
-
             while (resultSet.next()) {
                 Tour tour = new Tour();
                 tour.setId(resultSet.getLong("id"));
@@ -36,20 +37,10 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
 
                 tours.add(tour);
             }
-
             return tours;
 
-        } catch (SQLException e) {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException();
-        } finally {
-            try {
-                resultSet.close();
-            } catch (Exception e) {
-            }
-            try {
-                statement.close();
-            } catch (Exception e) {
-            }
         }
     }
 
@@ -66,41 +57,27 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
     @Override
     public Tour read(Long id) throws DaoException {
         final String read = "SELECT  * FROM tour WHERE id = ?";
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
-        try {
-            preparedStatement = getConnection().prepareStatement(read);
-            preparedStatement.setLong(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            Tour tour = null;
-            if (resultSet.next()) {
-                tour = new Tour();
-
-                tour.setId(id);
-                tour.setType(Type.values()[resultSet.getInt("type")]);
-                tour.setCountry(resultSet.getString("country"));
-                tour.setTown(resultSet.getString("town"));
-                tour.setDate(resultSet.getDate("date"));
-                tour.setDay(resultSet.getInt("day"));
-                tour.setFood(Food.values()[resultSet.getInt("food")]);
-                tour.setPrice(resultSet.getInt("price"));
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(read)){
+             preparedStatement.setLong(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                Tour tour = null;
+                if (resultSet.next()) {
+                    tour = new Tour();
+                    tour.setId(id);
+                    tour.setType(Type.values()[resultSet.getInt("type")]);
+                    tour.setCountry(resultSet.getString("country"));
+                    tour.setTown(resultSet.getString("town"));
+                    tour.setDate(resultSet.getDate("date"));
+                    tour.setDay(resultSet.getInt("day"));
+                    tour.setFood(Food.values()[resultSet.getInt("food")]);
+                    tour.setPrice(resultSet.getInt("price"));
+                }
+                return tour;
             }
-            return tour;
-
-
-        } catch (SQLException e) {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (Exception e) {
-            }
-            try {
-                resultSet.close();
-            } catch (Exception e) {
-            }
         }
     }
 
@@ -109,12 +86,10 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
 
         final String create = "INSERT INTO tour (type, country, town, date, day, food, price) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            statement = getConnection().prepareStatement(create, Statement.RETURN_GENERATED_KEYS);
-
+        try(Connection connection = ConnectionPool.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(create, Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+        ) {
             statement.setInt(1, tour.getType().ordinal());
             statement.setString(2, tour.getCountry());
             statement.setString(3, tour.getTown());
@@ -124,23 +99,13 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
             statement.setInt(7, tour.getPrice());
             statement.executeUpdate();
             Long id = null;
-            resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
                 id = resultSet.getLong(1);
             }
             return id;
 
-        } catch (SQLException e) {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException();
-        } finally {
-            try {
-                resultSet.close();
-            } catch (Exception e) {
-            }
-            try {
-                statement.close();
-            } catch (Exception e) {
-            }
         }
     }
 
@@ -148,10 +113,9 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
     public void update(Tour tour) throws DaoException {
         final String updateQuery = "UPDATE tour SET type = ?, country = ?, town = ?, date = ?, day = ?, food = ?, price = ? WHERE id = ?";
 
-        PreparedStatement statement = null;
-
-        try {
-            statement = getConnection().prepareStatement(updateQuery);
+        try(Connection connection = ConnectionPool.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(updateQuery))
+        {
             statement.setInt(1, tour.getType().ordinal());
             statement.setString(2, tour.getCountry());
             statement.setString(3, tour.getTown());
@@ -162,14 +126,8 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
             statement.setLong(8, tour.getId());
             statement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                statement.close();
-            } catch (Exception e) {
-
-            }
         }
     }
 
@@ -177,20 +135,13 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
     public void delete(Long id) throws DaoException {
         final String delete = "DELETE FROM tour WHERE id = ?";
 
-        PreparedStatement statement = null;
-        try {
-            statement = getConnection().prepareStatement(delete);
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(delete))        {
             statement.setLong(1, id);
             statement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException(e);
-        } finally {
-            try {
-                statement.close();
-            } catch (Exception e) {
-
-            }
         }
     }
 }

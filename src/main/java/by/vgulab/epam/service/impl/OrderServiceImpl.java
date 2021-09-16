@@ -24,7 +24,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
 
         try {
-            log.info("transition to findAll Tour");
+            log.info("transition to findAll Order");
             return orderDao.readAll();
 
         } catch (DaoException e) {
@@ -36,7 +36,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     @Override
     public Order findById(Long id) throws ServiceException {
         try {
-            log.info("transition to findById Tour");
+            log.info("transition to findById Order");
+
             return orderDao.read(id);
 
         } catch (DaoException e) {

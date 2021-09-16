@@ -4,6 +4,8 @@ public class Order extends Entity {
     private Long userId;
     private Long tourId;
     private Long price;
+    private User user;
+    private Tour tour;
 
 
     public Long getUserId() {
@@ -28,5 +30,26 @@ public class Order extends Entity {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Tour getTour() {
+        return tour;
+    }
+
+    public void setTour(Tour tour) {
+        this.tour = tour;
+    }
+
+    @Override
+    public String toString() {
+        return userId + " " + tourId + " " + price + " " + user + " " + tour;
     }
 }

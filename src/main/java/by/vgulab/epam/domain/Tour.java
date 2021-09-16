@@ -69,4 +69,9 @@ public class Tour extends Entity {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return type + " " + country + " " + town + " " + date + " " + day + " " + food + " " + price;
+    }
 }

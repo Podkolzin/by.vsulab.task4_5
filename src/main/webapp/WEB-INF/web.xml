@@ -3,9 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0"
-    metadata-complete="true">
+         metadata-complete="true">
 
     <display-name>EPAM_LAB Web-Application "Travel agency"</display-name>
+
+    <servlet>
+        <servlet-name>IndexPageServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.IndexPageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>IndexPageServlet</servlet-name>
+        <url-pattern>/index.html</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>UserListServlet</servlet-name>
@@ -46,9 +56,6 @@
         <servlet-name>UserDeleteServlet</servlet-name>
         <url-pattern>/user/delete.html</url-pattern>
     </servlet-mapping>
-
-
-
 
 
     <servlet>
@@ -92,7 +99,6 @@
     </servlet-mapping>
 
 
-
     <servlet>
         <servlet-name>OrderListServlet</servlet-name>
         <servlet-class>by.vgulab.epam.controller.order.OrderListServlet</servlet-class>
@@ -103,10 +109,21 @@
         <url-pattern>/order/list.html</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>OrderUserServiet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.order.OrderUserServiet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OrderUserServiet</servlet-name>
+        <url-pattern>/user/order.html</url-pattern>
+    </servlet-mapping>
+
 
     <listener>
         <listener-class>by.vgulab.epam.controller.ApplicationStartListener</listener-class>
     </listener>
+
 
     <session-config>
         <session-timeout>30</session-timeout>
@@ -136,6 +153,10 @@
         <param-name>jdbc-password</param-name>
         <param-value>root1234</param-value>
     </context-param>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
 
 </web-app>

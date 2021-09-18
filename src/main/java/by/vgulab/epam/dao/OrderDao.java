@@ -8,6 +8,8 @@ public interface OrderDao extends Dao<Order> {
 
     List<Order> readAll() throws DaoException;
 
+    List<Order> readOrder(Long id) throws DaoException;
+
     boolean isOrderInitiatesTransfers(Long id) throws DaoException;
 
 

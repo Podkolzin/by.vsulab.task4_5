@@ -35,10 +35,15 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
     @Override
     public Order findById(Long id) throws ServiceException {
+        return null;
+    }
+
+    @Override
+    public List<Order> findOrder(Long id) throws ServiceException {
         try {
             log.info("transition to findById Order");
 
-            return orderDao.read(id);
+            return orderDao.readOrder(id);
 
         } catch (DaoException e) {
             log.error("Didn't find one" + e.getMessage());

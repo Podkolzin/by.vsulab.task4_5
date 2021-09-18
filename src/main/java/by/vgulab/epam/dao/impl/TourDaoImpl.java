@@ -18,11 +18,9 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
         final String findAllQuery = "SELECT * FROM tour ORDER BY id";
 
 
-
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(findAllQuery))
-        {
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(findAllQuery)) {
             List<Tour> tours = new ArrayList<>();
             while (resultSet.next()) {
                 Tour tour = new Tour();
@@ -59,8 +57,8 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
         final String read = "SELECT  * FROM tour WHERE id = ?";
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(read)){
-             preparedStatement.setLong(1, id);
+             PreparedStatement preparedStatement = connection.prepareStatement(read)) {
+            preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 Tour tour = null;
                 if (resultSet.next()) {
@@ -86,10 +84,8 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
 
         final String create = "INSERT INTO tour (type, country, town, date, day, food, price) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try(Connection connection = ConnectionPool.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(create, Statement.RETURN_GENERATED_KEYS);
-            ResultSet resultSet = statement.getGeneratedKeys();
-        ) {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(create, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, tour.getType().ordinal());
             statement.setString(2, tour.getCountry());
             statement.setString(3, tour.getTown());
@@ -99,11 +95,12 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
             statement.setInt(7, tour.getPrice());
             statement.executeUpdate();
             Long id = null;
-            if (resultSet.next()) {
-                id = resultSet.getLong(1);
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    id = resultSet.getLong(1);
+                }
+                return id;
             }
-            return id;
-
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException();
         }
@@ -113,9 +110,8 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
     public void update(Tour tour) throws DaoException {
         final String updateQuery = "UPDATE tour SET type = ?, country = ?, town = ?, date = ?, day = ?, food = ?, price = ? WHERE id = ?";
 
-        try(Connection connection = ConnectionPool.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(updateQuery))
-        {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateQuery)) {
             statement.setInt(1, tour.getType().ordinal());
             statement.setString(2, tour.getCountry());
             statement.setString(3, tour.getTown());
@@ -136,7 +132,7 @@ public class TourDaoImpl extends BaseDaoImpl implements TourDao {
         final String delete = "DELETE FROM tour WHERE id = ?";
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(delete))        {
+             PreparedStatement statement = connection.prepareStatement(delete)) {
             statement.setLong(1, id);
             statement.executeUpdate();
 

@@ -84,22 +84,23 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         final String create = "INSERT INTO user (login, password, name, surname, email, role) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(create, Statement.RETURN_GENERATED_KEYS);
-             ResultSet resultSet = statement.getGeneratedKeys();
-        ) {
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getName());
-            statement.setString(4, user.getSurname());
-            statement.setString(5, user.getEmail());
-            statement.setInt(6, user.getRole().ordinal());
-            statement.executeUpdate();
-            Long id = null;
-            if (resultSet.next()) {
-                id = resultSet.getLong(1);
-            }
-            return id;
+             PreparedStatement statement = connection.prepareStatement(create, Statement.RETURN_GENERATED_KEYS)) {
 
+
+                statement.setString(1, user.getLogin());
+                statement.setString(2, user.getPassword());
+                statement.setString(3, user.getName());
+                statement.setString(4, user.getSurname());
+                statement.setString(5, user.getEmail());
+                statement.setInt(6, user.getRole().ordinal());
+                statement.executeUpdate();
+            Long id = null;
+            try (ResultSet resultSet = statement.getGeneratedKeys()){
+                if (resultSet.next()) {
+                    id = resultSet.getLong(1);
+                }
+                return id;
+            }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException();
         }

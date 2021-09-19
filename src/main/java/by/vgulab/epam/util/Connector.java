@@ -9,6 +9,9 @@ public class Connector {
     private static String jdbcUrl;
     private static String jdbcUser;
     private static String jdbcPassword;
+    private static int minSize;
+    private static int maxSize;
+    private static int connectTimeOut;
 
     public static void init(String jdbcDriver, String jdbcUrl, String jdbcUser, String jdbcPassword) throws ClassNotFoundException {
         Class.forName(jdbcDriver);

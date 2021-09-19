@@ -19,6 +19,8 @@
                 <th>Дней</th>
                 <th>Питание</th>
                 <th>Цена</th>
+                <th>edit</th>
+                <th>Order</th>
 
                 <td>&nbsp;</td>
             </tr>
@@ -32,6 +34,7 @@
                 <td class="content">${tour.food.name}</td>
                 <td class="content">${tour.price}</td>
                 <td class="empty"><a href="edit.html?id=${tour.id}" class="edit"></a></td>
+                <td class="empty"><a href="/order/add.html?id=${tour.id}" class="add-button">ЗАКАЗАТЬ</a></td>
             </tr>
             </c:forEach>
         </table>

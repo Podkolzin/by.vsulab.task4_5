@@ -3,7 +3,7 @@ package by.vgulab.epam.domain;
 public class Order extends Entity {
     private Long userId;
     private Long tourId;
-    private Long price;
+    private Long payment;
     private User user;
     private Tour tour;
 
@@ -24,12 +24,12 @@ public class Order extends Entity {
         this.tourId = tourId;
     }
 
-    public Long getPrice() {
-        return price;
+    public Long getPayment() {
+        return payment;
     }
 
-    public void setPrice(Long price) {
-        this.price = price;
+    public void setPayment(Long payment) {
+        this.payment = payment;
     }
 
     public User getUser() {
@@ -50,6 +50,6 @@ public class Order extends Entity {
 
     @Override
     public String toString() {
-        return userId + " " + tourId + " " + price + " " + user + " " + tour;
+        return userId + " " + tourId + " " + payment + " " + user + " " + tour;
     }
 }

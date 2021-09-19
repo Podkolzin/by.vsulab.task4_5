@@ -14,6 +14,7 @@ public interface OrderService {
 
     List<Order> findOrder(Long id) throws ServiceException;
 
+    void createOrder(Order order) throws ServiceException;
 
 
 }

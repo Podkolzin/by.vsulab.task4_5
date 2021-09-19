@@ -8,6 +8,7 @@ import by.vgulab.epam.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderServiceImpl extends BaseService implements OrderService {
@@ -51,4 +52,63 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         }
 
     }
+
+    @Override
+    public void createOrder(Order order) {
+        Long paymentOrderDiscont = order.getPayment();
+        List<Order> orderList = new ArrayList<>();
+        try {
+            orderList.addAll(orderDao.readOrder(order.getUserId()));
+
+
+//            orderList = orderDao.readAll();
+//            orderList.addAll(orderDao.readAll());
+
+//            orderList.addAll(orderDao.readAll());
+//            orderList.addAll(orderDao.readOrder(order.getUserId()));
+
+//            orderDao.readOrder(order.getUserId());
+
+
+            int discontControl = 0;
+//            for (Order orders : orderList) {
+            for (int i = 0; i < orderList.size(); i++) {
+                if (orderList.get(i).getUserId().equals(order.getUserId())) {
+                    discontControl++;
+                }
+            }
+
+            switch (discontControl) {
+                case 0:
+                    paymentOrderDiscont = paymentOrderDiscont;
+                    break;
+                case 1:
+                    paymentOrderDiscont -= 30L;
+                    break;
+                case 2:
+                    paymentOrderDiscont -= 40L;
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                    paymentOrderDiscont -= 50L;
+                    break;
+                default:
+                    paymentOrderDiscont -= 70L;
+                    break;
+            }
+
+            order.setPayment(paymentOrderDiscont);
+
+
+            orderDao.create(order);
+
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

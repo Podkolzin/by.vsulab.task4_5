@@ -33,7 +33,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
                 order.setId(resultSet.getLong("id"));
                 order.setUserId(resultSet.getLong("user_id"));
                 order.setTourId(resultSet.getLong("tour_id"));
-                order.setPrice(resultSet.getLong("price"));
+                order.setPayment(resultSet.getLong("payment"));
 
                 user.setId(resultSet.getLong("user_id"));
                 user.setLogin(resultSet.getString("login"));
@@ -50,7 +50,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
                 tour.setDate(resultSet.getDate("date"));
                 tour.setDay(resultSet.getInt("day"));
                 tour.setFood(Food.values()[resultSet.getInt("food")]);
-                tour.setPrice(resultSet.getInt("price"));
+                tour.setPrice(order.getPayment().intValue());
 
                 order.setUser(user);
                 order.setTour(tour);
@@ -88,7 +88,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
                     Tour tour = new Tour();
                     order.setUserId(resultSet.getLong("user_id"));
                     order.setTourId(resultSet.getLong("tour_id"));
-                    order.setPrice(resultSet.getLong("price"));
+                    order.setPayment(resultSet.getLong("payment"));
                     order.setId(resultSet.getLong("id"));
 
 
@@ -108,7 +108,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
                     tour.setDate(resultSet.getDate("date"));
                     tour.setDay(resultSet.getInt("day"));
                     tour.setFood(Food.values()[resultSet.getInt("food")]);
-                    tour.setPrice(resultSet.getInt("price"));
+                    tour.setPrice(order.getPayment().intValue());
                     order.setTour(tour);
                     orders.add(order);
                 }
@@ -127,14 +127,14 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     @Override
     public Long create(Order order) throws DaoException {
-        final String create = "INSERT INTO order (user_id, tour_is, price) VALUES (?, ?, ?)";
+        final String create = "INSERT INTO `order_m` (user_id, tour_id, payment) VALUES (?, ?, ?)";
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(create, Statement.RETURN_GENERATED_KEYS)){
+             PreparedStatement statement = connection.prepareStatement(create, Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setLong(1, order.getUserId());
             statement.setLong(2, order.getTourId());
-            statement.setLong(3, order.getPrice());
+            statement.setLong(3, order.getPayment());
             statement.executeUpdate();
             Long id = null;
             try (ResultSet resultSet = statement.getGeneratedKeys()) {
@@ -150,13 +150,13 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     @Override
     public void update(Order order) throws DaoException {
-        final String updateQuery = "UPDATE order SET user_id = ?, tour_id = ?, price = ? WHERE id = ?";
+        final String updateQuery = "UPDATE `order_m` SET user_id = ?, tour_id = ?, payment = ? WHERE id = ?";
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(updateQuery)) {
             statement.setLong(1, order.getUserId());
             statement.setLong(2, order.getTourId());
-            statement.setLong(3, order.getPrice());
+            statement.setLong(3, order.getPayment());
             statement.setLong(4, order.getId());
             statement.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
@@ -167,7 +167,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     @Override
     public void delete(Long id) throws DaoException {
-        final String delete = "DELETE FROM order WHERE id = ?";
+        final String delete = "DELETE FROM order_m WHERE id = ?";
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(delete)) {
             statement.setLong(1, id);

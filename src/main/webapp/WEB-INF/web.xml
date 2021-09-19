@@ -119,6 +119,16 @@
         <url-pattern>/user/order.html</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>OrderCreateServlet</servlet-name>
+        <servlet-class>by.vgulab.epam.controller.order.OrderCreateServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OrderCreateServlet</servlet-name>
+        <url-pattern>/order/add.html</url-pattern>
+    </servlet-mapping>
+
 
     <listener>
         <listener-class>by.vgulab.epam.controller.ApplicationStartListener</listener-class>

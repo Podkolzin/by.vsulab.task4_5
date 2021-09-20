@@ -35,7 +35,7 @@ public class OrderListServlet extends BaseServlet {
                 req.setAttribute("name", user.getName());
                 req.setAttribute("order", orders);
             } else {
-                resp.sendError(404);
+                req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
             }
 
             req.getRequestDispatcher("/WEB-INF/jsp/order/list.jsp").forward(req, resp);

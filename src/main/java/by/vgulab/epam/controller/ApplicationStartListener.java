@@ -1,6 +1,7 @@
 package by.vgulab.epam.controller;
 
-import by.vgulab.epam.util.Connector;
+import by.vgulab.epam.pool.ConnectionPool;
+import by.vgulab.epam.pool.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,16 +14,26 @@ public class ApplicationStartListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
+        ServletContext context = event.getServletContext();
+        String jdbcDriver = context.getInitParameter("jdbc-driver");
+        String jdbcUrl = context.getInitParameter("jdbc-url");
+        String jdbcUsername = context.getInitParameter("jdbc-username");
+        String jdbcPassword = context.getInitParameter("jdbc-password");
+        int minSize = Integer.parseInt(context.getInitParameter("minSize"));
+        int maxSize = Integer.parseInt(context.getInitParameter("manSize"));
+        int connectTimeOut = Integer.parseInt(context.getInitParameter("connectTimeOut"));
+
         try {
-            ServletContext context = event.getServletContext();
-            String jdbcDriver   = context.getInitParameter("jdbc-driver");
-            String jdbcUrl      = context.getInitParameter("jdbc-url");
-            String jdbcUsername = context.getInitParameter("jdbc-username");
-            String jdbcPassword = context.getInitParameter("jdbc-password");
-            Connector.init(jdbcDriver, jdbcUrl, jdbcUsername, jdbcPassword);
-            logger.info("Connector was initialized,\njdbc-driver = {},\njdbc-url = {},\njdbc-username = {}\njdbc-password = {}", jdbcDriver, jdbcUrl, jdbcUsername, jdbcPassword);
-        } catch(ClassNotFoundException e) {
-            logger.fatal("Can't initialize class {}", Connector.class.getName(), e);
+            logger.info("Connector was initialized,\njdbc-driver = {},\njdbc-url = {},\njdbc-username = {}\njdbc-password = {}", jdbcDriver, jdbcUrl, jdbcUsername, jdbcPassword, minSize, maxSize, connectTimeOut);
+            ConnectionPool.getInstance().init(jdbcDriver, jdbcUrl, jdbcUsername, jdbcPassword, minSize, maxSize, connectTimeOut);
+        } catch (ConnectionPoolException e) {
+            logger.fatal("Can't initialize class {}", ConnectionPool.class.getName(), e);
+            e.printStackTrace();
         }
+        //  Connector.init(jdbcDriver, jdbcUrl, jdbcUsername, jdbcPassword, minSize, maxSize, connectTimeOut);
+//            logger.info("Connector was initialized,\njdbc-driver = {},\njdbc-url = {},\njdbc-username = {}\njdbc-password = {}", jdbcDriver, jdbcUrl, jdbcUsername, jdbcPassword, minSize, maxSize, connectTimeOut);
+//        } catch(ClassNotFoundException e) {
+//            logger.fatal("Can't initialize class {}", Connector.class.getName(), e);
+
     }
 }

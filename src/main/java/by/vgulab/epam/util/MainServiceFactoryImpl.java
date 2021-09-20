@@ -6,6 +6,8 @@ import by.vgulab.epam.dao.impl.TourDaoImpl;
 import by.vgulab.epam.dao.impl.UserDaoImpl;
 import by.vgulab.epam.dao.TourDao;
 import by.vgulab.epam.dao.UserDao;
+import by.vgulab.epam.pool.ConnectionPool;
+import by.vgulab.epam.pool.ConnectionPoolException;
 import by.vgulab.epam.service.OrderService;
 import by.vgulab.epam.service.TourService;
 import by.vgulab.epam.service.Transaction;
@@ -45,8 +47,8 @@ public class MainServiceFactoryImpl implements ServiceFactory {
     public Connection getConnection() throws FactoryException {
         if (connection == null) {
             try {
-                connection = Connector.getConnection();
-            } catch (SQLException e) {
+                connection = ConnectionPool.getInstance().getConnection();
+            } catch (ConnectionPoolException e) {
                 throw new FactoryException(e);
             }
         }

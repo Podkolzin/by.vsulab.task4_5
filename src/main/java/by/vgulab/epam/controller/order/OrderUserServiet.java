@@ -29,7 +29,7 @@ public class OrderUserServiet extends BaseServlet {
                 if (user != null) {
                     HttpSession session = req.getSession();
                     session.setAttribute("session_user", user);
-      //              req.setAttribute("session_user", user.getName());
+                    req.setAttribute("session_user", user.getName());
                     resp.sendRedirect(req.getContextPath() + "/order/list.html");
                 } else {
                     resp.sendError(404);

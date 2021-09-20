@@ -4,11 +4,11 @@ import by.vgulab.epam.controller.BaseServlet;
 import by.vgulab.epam.domain.Role;
 import by.vgulab.epam.domain.User;
 import by.vgulab.epam.service.UserService;
-import by.vgulab.epam.service.exception.UserNotExistsException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class UserSaveServlet extends BaseServlet {
@@ -26,15 +26,27 @@ public class UserSaveServlet extends BaseServlet {
             UserService userService = getFactory().getUserService();
             user.setLogin(req.getParameter("login"));
             user.setPassword(req.getParameter("password"));
-            user.setName(req.getParameter("name"));
-            user.setSurname(req.getParameter("surname"));
-            user.setEmail(req.getParameter("email"));
+            if (!req.getParameter("name").equals("")) {
+                user.setName(req.getParameter("name"));
+            } else {
+                user.setName("null");
+            }
+            if (!req.getParameter("surname").equals("")) {
+                user.setSurname(req.getParameter("surname"));
+            } else {
+                user.setSurname("null");
+            }
+            if (!req.getParameter("email").equals("")) {
+                user.setEmail(req.getParameter("email"));
+            } else {
+                user.setEmail("null");
+            }
             user.setRole(Role.values()[Integer.parseInt(req.getParameter("role"))]);
-                userService.save(user);
+            userService.save(user);
+
         } catch (Exception e) {
             throw new ServletException(e);
         }
-
 
 
 //        try {
@@ -54,6 +66,12 @@ public class UserSaveServlet extends BaseServlet {
 //                throw new ServletException(e);
 //            }
 //        }
-        resp.sendRedirect(req.getContextPath() + "/user/list.html");
+
+        HttpSession httpSession = req.getSession(false);
+        if (httpSession.getAttribute("session_user") == null) {
+            resp.sendRedirect(req.getContextPath() + "/login.html");
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/order/list.html");
+        }
     }
 }

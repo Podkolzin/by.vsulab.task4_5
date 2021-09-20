@@ -183,8 +183,26 @@
         <param-value>root1234</param-value>
     </context-param>
 
+    <context-param>
+        <description>Минимальный пул</description>
+        <param-name>minSize</param-name>
+        <param-value>5</param-value>
+    </context-param>
+
+    <context-param>
+        <description>Максимальный пул</description>
+        <param-name>manSize</param-name>
+        <param-value>30</param-value>
+    </context-param>
+
+    <context-param>
+        <description>время тайм-аута</description>
+        <param-name>connectTimeOut</param-name>
+        <param-value>3000</param-value>
+    </context-param>
+
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
 

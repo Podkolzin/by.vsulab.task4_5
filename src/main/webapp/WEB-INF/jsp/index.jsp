@@ -23,7 +23,7 @@
 <br>
 <br>
 
-<c:url var="orderUser" value="/user/order.html"/>
+<c:url var="orderUser" value="/login.html"/>
 <p><a href="${orderUser}">Войти</a></p><br>
 
 <br>

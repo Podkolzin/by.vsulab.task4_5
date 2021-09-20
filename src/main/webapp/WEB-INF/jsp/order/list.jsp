@@ -11,7 +11,8 @@
         <h1>Турфирма "Грузинская мечта!"</h1>
 
         <c:if test="${not empty order}"><c:set var="title" value="Ваши текущие заказы"/>
-
+            <label for="name"> Уважаймый клиент:</label><br>
+            <input type="text" name="name" id="name" value="${name}">
             <h2>Список заказов</h2>
 
             <table>
@@ -46,6 +47,8 @@
         </c:if>
 
         <c:if test="${empty order}"><c:set var="title" value="У Вас еще нет заказов"/>
+            <label for="name"> Уважаймый клиент:</label><br>
+            <input type="text" name="name" id="name" value="${name}">
             <h2>У Вас еще нет заказов</h2>
         <a href="/tour/list.html" class="add-button">ЗАКАЗАТЬ</a>
         </c:if>

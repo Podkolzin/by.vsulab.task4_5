@@ -116,7 +116,7 @@
 
     <servlet-mapping>
         <servlet-name>OrderUserServiet</servlet-name>
-        <url-pattern>/user/order.html</url-pattern>
+        <url-pattern>/login.html</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -128,6 +128,25 @@
         <servlet-name>OrderCreateServlet</servlet-name>
         <url-pattern>/order/add.html</url-pattern>
     </servlet-mapping>
+
+
+    <filter>
+        <filter-name>CharsetFilter</filter-name>
+        <filter-class>by.vgulab.epam.filter.CharsetFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharsetFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>by.vgulab.epam.filter.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
 
 
     <listener>

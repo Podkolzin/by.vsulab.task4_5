@@ -157,8 +157,10 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public boolean canDelete(Long id) throws ServiceException {
         try {
+            log.info("you can delete user");
             return !userDao.isUserInitiatesTransfers(id);
         } catch (DaoException e) {
+            log.error("you can't delete");
             throw new ServiceException(e);
         }
     }
@@ -170,6 +172,17 @@ public class UserServiceImpl extends BaseService implements UserService {
             userDao.delete(id);
         } catch (DaoException e) {
             log.error("delete doesn’t work maybe wrong id");
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public User readByLoginAndPassword(String login, String password) throws ServiceException {
+        try {
+            log.info("read by Login and Password");
+            return userDao.readByLoginAndPassword(login, password);
+        } catch (DaoException e) {
+            log.error("read by Login and Password not work");
             throw new ServiceException(e);
         }
     }

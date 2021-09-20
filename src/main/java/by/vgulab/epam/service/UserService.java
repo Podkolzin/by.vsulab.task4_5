@@ -18,5 +18,7 @@ public interface UserService {
 
     void delete(Long id) throws ServiceException;
 
+    User readByLoginAndPassword(String login, String password) throws ServiceException;
+
 
 }

@@ -55,6 +55,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
     @Override
     public void createOrder(Order order) {
+        log.info("transition to create Order");
         Long paymentOrderDiscont = order.getPayment();
         List<Order> orderList = new ArrayList<>();
         try {
@@ -107,6 +108,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             orderDao.create(order);
 
         } catch (DaoException e) {
+            log.error("Didn't create Order" + e.getMessage());
             e.printStackTrace();
         }
     }

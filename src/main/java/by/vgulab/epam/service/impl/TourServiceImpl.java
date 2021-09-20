@@ -100,8 +100,10 @@ public class TourServiceImpl extends BaseService implements TourService {
     @Override
     public boolean canDelete(Long id) throws ServiceException {
         try {
+            log.info("you can delete tour");
             return !tourDao.isTourInitiatesTransfers(id);
         } catch (DaoException e) {
+            log.error("you can't delete tour");
             throw new ServiceException(e);
         }
     }

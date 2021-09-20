@@ -7,7 +7,7 @@
 --%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    <jsp:useBean id="order" class="by.vgulab.epam.domain.Order"/>
+<jsp:useBean id="user" class="by.vgulab.epam.domain.User"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +18,17 @@
 <body>
 <h1>Турфирма лучшего отдыха</h1>
 <h2>${title}</h2>
-<form action=" " method="post">
 
-    <label for="order.userId">Пользователь id:</label><br>
-    <input type="text" name="order.userId" id="order.userId">
-    <button type="submit"> Сохранить </button><br>
+<c:url var="signinUrl" value="/login.html"/>
+<form action="${signinUrl}" method="post">
+
+    <label for="login">Логин пользователя:</label><br>
+    <input type="text" name="login" id="login">
+
+    <label for="password">Пароль:</label><br>
+    <input type="text" name="password" id="password">
+    <button type="submit"> Сохранить</button>
+    <br>
 </form>
 </body>
 </html>

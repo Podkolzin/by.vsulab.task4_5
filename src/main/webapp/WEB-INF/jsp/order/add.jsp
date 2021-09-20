@@ -18,8 +18,8 @@
         <input name="id" value="${tour.id}" type="hidden">
     </c:if>
 
-    <label for="order.userId">Пользователь id:</label><br>
-    <input type="text" name="order.userId" id="order.userId">
+    <label for="name"> Уважаймый клиент:</label><br>
+    <input type="text" name="name" id="name" value="${name}">
 
     <label for="tour.tourId">Номер тура:</label><br>
     <input type="text" name="tour.tourId" id="tour.tourId" value="${tour.id}">

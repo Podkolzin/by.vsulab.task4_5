@@ -49,8 +49,40 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
     @Override
     public User readByLoginAndPassword(String login, String password) throws DaoException {
-        return null;
+        final String findAllUser = "SELECT * FROM user ORDER BY id";
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(findAllUser)) {
+            List<User> usersAll = new ArrayList<>();
+            User loginUser = new User();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getLong("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setName(resultSet.getString("name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setEmail(resultSet.getString("email"));
+                user.setRole(Role.values()[resultSet.getInt("role")]);
+                usersAll.add(user);
+            }
+            for (User user: usersAll){
+                if(user.getLogin().equals(login) && user.getPassword().equals(password)){
+                    loginUser.setId(user.getId());
+                    loginUser.setLogin(user.getLogin());
+                    loginUser.setPassword(user.getPassword());
+                    loginUser.setName(user.getName());
+                    loginUser.setSurname(user.getSurname());
+                    loginUser.setEmail(user.getEmail());
+                    loginUser.setRole(user.getRole());
+                }
+            }
+            return loginUser;
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException();
+        }
     }
+
 
     @Override
     public User read(Long id) throws DaoException {
